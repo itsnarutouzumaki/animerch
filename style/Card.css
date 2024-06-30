@@ -1,0 +1,42 @@
+.container {
+  width: 10vw; /* Adjust width for better visual */
+  height: 25vh; /* Adjust height for better visual */
+  background-color: #9c9898;
+  /* margin: 10px 10px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  border-radius: 5px;
+  padding: 5px; /* Add padding for better spacing */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a shadow for better visual */
+}
+
+.images {
+  width: 80%;
+  height: 100%;
+  border-radius: 5px;
+  /* margin-bottom: 10px; Add margin bottom for spacing */
+}
+
+.nameContainer {
+  text-align: center; /* Center align text */
+}
+
+.productName {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin: 0px 0px;
+}
+
+.details {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 10px; /* Add padding for spacing */
+}
+
+.cost, .rating {
+  font-size: 1em;
+}
