@@ -39,22 +39,11 @@
 
 .navbar-link:hover {
   color:white;
-  background-color: rgb(113, 113, 113);
+  box-shadow: 0 0 50px rgba(225, 207, 207, 0.5);
   border-radius: 5px;
   transition: 0.2s;
-  font-size: 20px;
 }
 
 .cart{
   font-size: 25px;
-}
-.cart:hover{
-  font-size: 30px;
-}
-.searchBox{
-  margin-right:2vw ;
-  width: 10vw;
-  height: 5vh;
-  /* border: 2px white; */
-  border-radius: 5px;
 }

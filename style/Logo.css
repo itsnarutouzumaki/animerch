@@ -11,5 +11,5 @@
 }
 
 .logo_img:hover{
-  box-shadow:  -3px -3px 3px 3px rgb(113, 113, 113);
+  box-shadow: 0 0 50px rgba(225, 207, 207, 0.5);
 }
