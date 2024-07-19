@@ -9,3 +9,36 @@
   align-items: center;
   justify-content: center;
 }
+
+.total_amount{
+  width: 90%;
+  height: fit-content;
+  margin: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+ .amount_number{
+  margin-left: 10px;
+ }
+
+.price_amount{
+  display: flex;
+  /* padding: 0px 30px; */
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.proceed{
+  background-color: #05650d;
+  color: white;
+  margin-right: 20px;
+  width: fit-content;
+  height: fit-content;
+  font-weight: 900;
+}
+
+.proceed:hover{
+  border: 3px solid white;
+  box-shadow: 0 0 50px rgba(225, 207, 207, 0.5);
+}
