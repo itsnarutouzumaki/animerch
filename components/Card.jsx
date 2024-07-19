@@ -17,8 +17,8 @@ function Card() {
             <div className="price_title">Price :</div>
 
             <div className="cost">
-              <div className="old_price">1800</div>
-              <div className="new_price">1200</div>
+              <div className="old_price">₹ 1800</div>
+              <div className="new_price">₹ 1200</div>
             </div>
           </div>
 
