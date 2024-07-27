@@ -1,9 +1,17 @@
 import React from 'react';
 import "../style/Cart.css"
 import CartItem from './CartItem';
+// import App from "../src/App";
+import Footer from './Footer';
+import Navbar from './Navbar';
+
 
 function Cart() {
   return (
+    <>
+    <Navbar/>
+    <div className="Cart_main_container">
+
     <div className="cart_container">
       <CartItem/>
       <div className="total_amount">
@@ -20,6 +28,9 @@ function Cart() {
         </button>
       </div>
     </div>
+    </div>
+    <Footer/>
+    </>
   )
 }
 export default Cart

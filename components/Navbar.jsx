@@ -15,7 +15,7 @@ function Navbar() {
             <input type="text" placeholder="Search for products..." className="search-box" />
             <button className="search-button"><FaSearch /></button>
           </li>
-            <LoggedIn/>
+            <NotLoggedIn/>
           <li className="navbar-item">
             <a href="/cart" className="navbar-link cart"><FaShoppingCart/></a>
           </li>

@@ -1,5 +1,6 @@
 import React from 'react';
 import '../style/Register.css';
+import { Link } from 'react-router-dom';
 
 function Register() {
   return (
@@ -10,7 +11,7 @@ function Register() {
           <p className="message">
             Welcome back to Animerch! Discover the latest anime merchandise just for you.
           </p>
-          <button className="register">Login</button>
+          <p className="register"> <Link to="/Login" className='register_Link'>Login</Link> </p>
         </div>
 
         <div className="details_field">

@@ -117,3 +117,15 @@
   background-color: #3f3e3e;
   box-shadow: 0 0 50px rgba(5, 5, 4, 0.5);
 }
+
+.register{
+  border-radius: 5px;
+}
+
+.register_Link{
+  color: white;
+}
+
+.register_Link:hover{
+  color:white;
+}

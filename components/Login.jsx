@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import '../style/Login.css';
 
 function Login() {
@@ -21,7 +22,7 @@ function Login() {
           <p className="message">
             Welcome back to Animerch! Discover the latest anime merchandise just for you.
           </p>
-          <button className="register">Register</button>
+          <p className="register"> <Link to="/register" className='register_Link'>Register</Link> </p>
         </div>
       </div>
     </div>
