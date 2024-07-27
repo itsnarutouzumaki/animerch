@@ -1,15 +1,11 @@
-.logo-container {
-  width: 150px;
-  height: 50px;
-  border-radius: 10px;
-}
 
 .logo_img{
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
+  width: 150px;
+  height: 50px;
+  object-fit: fill;
 }
 
-.logo_img:hover{
+.Logo_link:hover{
   box-shadow: 0 0 50px rgba(225, 207, 207, 0.5);
+  border-radius: 10px;
 }

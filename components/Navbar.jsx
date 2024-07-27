@@ -1,8 +1,9 @@
 import React from 'react';
 import { FaShoppingCart, FaSearch } from "react-icons/fa";
-import '../style/Navbar.css'; 
+import '../style/Navbar.css';
 import Logo from './Logo';
-
+import LoggedIn from './LoggedIn';
+import NotLoggedIn from './NotLoggedIn';
 function Navbar() {
   return (
     <nav className="navbar">
@@ -14,14 +15,7 @@ function Navbar() {
             <input type="text" placeholder="Search for products..." className="search-box" />
             <button className="search-button"><FaSearch /></button>
           </li>
-          <li className="navbar-item dropdown">
-            <a href="#" className="navbar-link">Dropdown</a>
-            <ul className="dropdown-menu">
-              <li><a href="/option1" className="dropdown-link">Option 1</a></li>
-              <li><a href="/option2" className="dropdown-link">Option 2</a></li>
-              <li><a href="/option3" className="dropdown-link">Option 3</a></li>
-            </ul>
-          </li>
+            <LoggedIn/>
           <li className="navbar-item">
             <a href="/cart" className="navbar-link cart"><FaShoppingCart/></a>
           </li>
