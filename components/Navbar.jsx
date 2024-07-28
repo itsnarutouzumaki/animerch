@@ -5,6 +5,7 @@ import Logo from './Logo';
 import LoggedIn from './LoggedIn';
 import NotLoggedIn from './NotLoggedIn';
 import { Link } from 'react-router-dom';
+
 function Navbar() {
   return (
     <nav className="navbar">
