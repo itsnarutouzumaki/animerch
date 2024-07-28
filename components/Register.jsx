@@ -1,9 +1,11 @@
 import React from 'react';
 import '../style/Register.css';
 import { Link } from 'react-router-dom';
-
+import Navbar from './Navbar';
 function Register() {
   return (
+    <>
+    <Navbar/>
     <div className="full_screen">
       <div className="container">
         <div className="message_field">
@@ -40,6 +42,7 @@ function Register() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

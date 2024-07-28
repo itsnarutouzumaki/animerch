@@ -1,9 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Navbar from './Navbar';
 import '../style/Login.css';
 
 function Login() {
   return (
+    <>
+    <Navbar />
     <div className="full_screen">
       <div className="container">
         <div className="details_field">
@@ -26,6 +29,7 @@ function Login() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
