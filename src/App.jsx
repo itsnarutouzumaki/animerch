@@ -6,7 +6,11 @@ import Login from "../components/Login";
 import Register from "../components/Register";
 import Cart from "../components/Cart";
 import ContactUs from "../components/ContactUs";
+import { useEffect } from "react";
 function App() {
+  useEffect(()=>{
+    document.title="AniMerch";
+  });
   const rounter= createBrowserRouter([
     {
       path :"/",
