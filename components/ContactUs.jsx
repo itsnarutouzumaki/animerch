@@ -8,8 +8,8 @@ const ContactUs = () => {
     <>
       <Navbar />
       <div className="full_screen">
-        <div className="container">
-          <div className="details_field">
+        <div className="contact_container">
+          <div className="contact_details_field">
             <div className="input-group">
               <input type="text" name="text" className="input" required />
               <label className="label">Full Name</label>
