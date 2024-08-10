@@ -15,7 +15,7 @@
   border-radius: 12px;
 }
 
-.container:hover {
+.contact_container:hover {
   border: 4px solid white;
   box-shadow: 0 0 50px rgba(221, 221, 216, 0.5);
 }
