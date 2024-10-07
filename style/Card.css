@@ -12,7 +12,9 @@
 }
 
 .card:hover {
-  box-shadow: 0 0 50px rgba(225, 207, 207, 0.5);
+  border: 2px solid white;
+    border-radius: 10px;
+    box-shadow: 0 0 50px rgba(242, 239, 239, 0.5);
 }
 
 .title {

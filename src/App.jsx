@@ -1,41 +1,48 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "../components/Home";
-import { createBrowserRouter , RouterProvider } from "react-router-dom";
 import Login from "../components/Login";
 import Register from "../components/Register";
 import Cart from "../components/Cart";
 import ContactUs from "../components/ContactUs";
-import { useEffect } from "react";
+import ProductPage from "../components/ProductPage";
+
 function App() {
-  useEffect(()=>{
-    document.title="AniMerch";
+  useEffect(() => {
+    document.title = "AniMerch";
   });
-  const rounter= createBrowserRouter([
+
+  const router = createBrowserRouter([
     {
-      path :"/",
-      element: <Home/>
+      path: "/",
+      element: <Home />,
     },
     {
-      path :"/login",
-      element: <Login/>
+      path: "/login",
+      element: <Login />,
     },
     {
-      path :"/register",
-      element: <Register/>
+      path: "/register",
+      element: <Register />,
     },
     {
-      path :"/cart",
-      element: <Cart/>
+      path: "/cart",
+      element: <Cart />,
     },
     {
-      path :"/ContactUs",
-      element: <ContactUs/>
-    }
+      path: "/contactus",
+      element: <ContactUs />,
+    },
+    {
+      path: "/product/:productid",
+      element: <ProductPage />,
+    },
   ]);
+
   return (
     <>
-      <RouterProvider router={rounter} />
+      <RouterProvider router={router} />
     </>
   );
 }
