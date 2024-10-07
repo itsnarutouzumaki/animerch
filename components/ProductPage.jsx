@@ -10,6 +10,7 @@ const ProductPage = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -26,6 +27,13 @@ const ProductPage = () => {
     fetchProduct();
   }, [productid]);
 
+  const handleMouseMove = (e) => {
+    const { left, top, width, height } = e.target.getBoundingClientRect();
+    const x = ((e.pageX - left) / width) * 100;
+    const y = ((e.pageY - top) / height) * 100;
+    setZoomPosition({ x, y });
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -41,7 +49,15 @@ const ProductPage = () => {
         <div className="product_page_container">
           <div className="product_page_main">
             <div className="product_page_left">
-              <img className="product_page_image" src={product.image} alt={product.title} />
+              <img
+                className="product_page_image"
+                src={product.image}
+                alt={product.title}
+                onMouseMove={handleMouseMove}
+                style={{
+                  transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`,
+                }}
+              />
             </div>
             <div className="product_page_right">
               <h1 className="product_page_title">{product.title}</h1>
