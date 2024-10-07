@@ -7,6 +7,7 @@ import Register from "../components/Register";
 import Cart from "../components/Cart";
 import ContactUs from "../components/ContactUs";
 import ProductPage from "../components/ProductPage";
+import Profile from "../components/Profile";
 
 function App() {
   useEffect(() => {
@@ -38,6 +39,10 @@ function App() {
       path: "/product/:productid",
       element: <ProductPage />,
     },
+    {
+      path: "/Profile",
+      element: <Profile/>,
+    }
   ]);
 
   return (
