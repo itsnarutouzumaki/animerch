@@ -2,7 +2,7 @@ import React from 'react';
 import '../style/Profile.css';
 import Navbar from './Navbar';
 import Footer from './Footer';
-
+import { CiCirclePlus } from "react-icons/ci";
 const Profile = () => {
     return (
       <>
@@ -18,6 +18,7 @@ const Profile = () => {
                 <p>Gender: Male</p>
                 <p>Email: XYZ@gmail.com</p>
                 <p>Mobile : XXXXXXX262</p>
+                <button className='profile_page_button'>✏️Edit</button>
             </div>
 
             <div className="profile_right_div">
@@ -25,16 +26,14 @@ const Profile = () => {
             <div className="profile_right_upper">
             <div className="saved-cards">
                 <h3>Saved Cards</h3>
-                <p>Card 1: **** **** **** 1234</p>
-                <p>Card 2: **** **** **** 5678</p>
-                <button>Add New Card</button>
+                <button className="profile_page_add_button"><CiCirclePlus></CiCirclePlus></button>
+                <p>No record Found.</p>
             </div>
 
             <div className="saved-cards">
                 <h3>Saved Address</h3>
-                <p>Card 1: **** **** **** 1234</p>
-                <p>Card 2: **** **** **** 5678</p>
-                <button>Add New Card</button>
+                <button className="profile_page_add_button"><CiCirclePlus></CiCirclePlus></button>
+                <p>No record Found.</p>
             </div>
 
             </div>
@@ -42,7 +41,6 @@ const Profile = () => {
             <div className="order-details">
                 <h3>Order Details</h3>
                 <p>No recent orders.</p>
-                {/* Add more order details here */}
             </div>
         </div>
         </div>

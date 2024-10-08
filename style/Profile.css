@@ -1,38 +1,43 @@
-.profile-container{
-  width:98vw;
+.profile-container {
+  width: 98vw;
   display: flex;
   flex-direction: row;
 }
 
-.profile-info{
-  width:20vw;
+.profile-info {
+  width: 20vw;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  border: 3px solid grey ;
+  border: 3px solid grey;
   padding: 30px;
   margin: 10px;
 }
 
-.profile-info img{
+.profile-info:hover {
+  border: 2px solid white;
+  border-radius: 10px;
+  box-shadow: 0 0 50px rgba(242, 239, 239, 0.5);
+}
+
+.profile-info img {
   width: 200px;
   height: 200px;
   border-radius: 50%;
   background-color: #fff;
 }
 
-.profile_right_div{
-  /* border: 2px solid rgb(212, 31, 31); */
+.profile_right_div {
   width: 70vw;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.profile_right_upper{
+.profile_right_upper {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -42,15 +47,46 @@
   padding-bottom: 5px;
 }
 
-.saved-cards{
+.saved-cards {
+  position: relative;
   border: 3px solid grey;
   border-radius: 10px;
   width: 48%;
   text-align: center;
   height: 100%;
+  padding: 0px;
+  margin: 0px;
 }
 
-.order-details{
+.saved-cards:hover {
+  border: 2px solid white;
+  border-radius: 10px;
+  box-shadow: 0 0 50px rgba(242, 239, 239, 0.5);
+}
+
+.saved-cards h3 {
+  margin: 1px;
+  padding: 0px;
+}
+
+.profile_page_add_button {
+  font-size: 50px;
+  padding: 0px;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-weight: 900;
+  position: absolute;
+  background-color: #242424;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.order-details {
   border: 3px solid grey;
   width: 97%;
   min-height: 60%;
@@ -59,3 +95,32 @@
   text-align: center;
 }
 
+.order-details h3 {
+  margin: 0px;
+}
+
+.order-details:hover {
+  border: 2px solid white;
+  border-radius: 10px;
+  box-shadow: 0 0 50px rgba(242, 239, 239, 0.5);
+}
+
+.profile_page_button {
+  color: black;
+  background-color: #fff;
+  font: 1em sans-serif;
+  font-weight: 600;
+}
+
+.profile_page_button:hover {
+  border: 2px solid white;
+  border-radius: 10px;
+  box-shadow: 0 0 50px rgba(242, 239, 239, 0.5);
+}
+
+.profile_page_button:active {
+  border: 2px solid white;
+  border-radius: 10px;
+  background-color: rgb(116, 246, 116);
+  box-shadow: 0 0 50px rgba(242, 239, 239, 0.5);
+}
