@@ -3,6 +3,7 @@ import '../style/Profile.css';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import { CiCirclePlus } from "react-icons/ci";
+import Address_container from './Address_container';
 const Profile = () => {
     return (
       <>
@@ -24,16 +25,12 @@ const Profile = () => {
             <div className="profile_right_div">
 
             <div className="profile_right_upper">
-            <div className="saved-cards">
-                <h3>Saved Cards</h3>
-                <button className="profile_page_add_button"><CiCirclePlus></CiCirclePlus></button>
-                <p>No record Found.</p>
-            </div>
 
-            <div className="saved-cards">
+            <div className="saved-address">
                 <h3>Saved Address</h3>
                 <button className="profile_page_add_button"><CiCirclePlus></CiCirclePlus></button>
-                <p>No record Found.</p>
+                <Address_container/>
+                <Address_container/><Address_container/><Address_container/><Address_container/><Address_container/><Address_container/>
             </div>
 
             </div>
