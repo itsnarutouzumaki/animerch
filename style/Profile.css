@@ -59,8 +59,24 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.saveed_address_top{
+  display: flex;
+  justify-content: center;
+
+  position: relative;
+  width: 100%;
+}
+.saveed_address_buttom{
   overflow-y: scroll;
   overflow-x: hidden;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .saved-address:hover {
@@ -75,21 +91,22 @@
 }
 
 .profile_page_add_button {
-  font-size: 50px;
+  position: absolute;
+  font-size: 28px;
   padding: 0px;
   border-radius: 50%;
   width: 30px;
   height: 30px;
   font-weight: 900;
-  position: absolute;
   background-color: #242424;
-  top: 2px;
-  right: 2px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  top: 0px;
+  right: 10px;
+  outline: none;
 }
 
+.profile_page_add_button :hover{
+  cursor: pointer;
+}
 
 .order-details {
   border: 3px solid grey;
