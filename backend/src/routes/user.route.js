@@ -10,4 +10,7 @@ router.route("/profile").get(verifyJWT, userControllers.userDetails);
 router.route("/logout").post(verifyJWT, userControllers.userLogout);
 router.route("/updateprofile").post(verifyJWT, userControllers.userUpdateProfile);
 router.route("/updatepassword").post(verifyJWT, userControllers.userPasswordUpdate);
+router.route("/forgetpassword").post( userControllers.userForgetPassword);
+router.route("/resetpassowrd/:id").get( userControllers.userResetPassword);
+router.route("/verifyemail/:id").get( userControllers.userVerifyMail);
 export default router;

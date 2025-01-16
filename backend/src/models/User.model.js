@@ -47,6 +47,10 @@ const AddressSchema = new Schema({
       message: "Phone number must be a 10-digit number.",
     },
   },
+  resetToken :{
+    type:String,
+    default :""
+  }
 });
 
 const CartSchema = new Schema({
@@ -108,9 +112,18 @@ const userSchema = new Schema(
       type: String,
       default: null,
     },
+    resetToken: {
+      type: String,
+      default: "",
+    },
+    verified:{
+      type:Boolean,
+      default:false
+    }
   },
   { timestamps: true }
 );
+
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
