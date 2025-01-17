@@ -104,8 +104,9 @@ const userSchema = new Schema(
         ref: "Order",
       },
     ],
-    avatar: {
+    profileImage: {
       type: String,
+      default: process.env.DEFAULT_PROFILE_IMAGE,
     },
     cart: [CartSchema],
     refreshToken: {

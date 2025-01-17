@@ -1,9 +1,9 @@
-import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from "../models/User.model.js";
 import jwt from "jsonwebtoken";
 import { randomString } from "../utils/randomPassword.js";
 import mailSender from "./../utils/sendMail.js";
+import { fileUpload,deleteImage} from "./../utils/cloudinary.js";
 
 const generateAccessAndRefreshToken = async (userId) => {
   const user = await User.findById(userId);
@@ -231,18 +231,20 @@ const userPasswordUpdate = async (req, res) => {
       .json(new ApiResponse(400, {}, "Passwords do not match"));
   }
 
+  const user = await User.findById(req.user._id);
+  if (!user) {
+    return res.status(404).json(new ApiResponse(404, {}, "User not found"));
+  }
+
+  const isValidPassword = await user.isPasswordCorrect(oldPassword);
+  if (!isValidPassword) {
+    return res
+      .status(401)
+      .json(new ApiResponse(401, {}, "Incorrect old password"));
+  }
   try {
-    const user = await User.findById(req.user._id);
-
-    const isValidPassword = await bcrypt.compare(oldPassword, user.password);
-    if (!isValidPassword) {
-      return res
-        .status(401)
-        .json(new ApiResponse(401, {}, "Incorrect old password"));
-    }
-
     user.password = newPassword;
-    await user.save();
+    await user.save({validateBeforeSave: false});
 
     res
       .status(200)
@@ -272,7 +274,7 @@ const userForgetPassword = async (req, res) => {
     });
     await user.updateOne({ resetToken });
 
-    const resetLink = `http://localhost:3000/api/v1/users/resetpassowrd/${resetToken}`;
+    const resetLink = `http://localhost:3000/api/v1/users/resetpassword/${resetToken}`;
 
     await mailSender(email, "Password Reset", resetLink);
 
@@ -346,11 +348,62 @@ const userResetPassword = async (req, res) => {
 };
 
 const userUpdateProfileImage = async (req, res) => {
-    
+  const userId = req.user._id;
+  const userImage = req.file?.path;
+
+  if (!userImage) {
+    return res.status(400).json(new ApiResponse(400, {}, "Image is required"));
+  }
+
+  const user =await User.findById(userId).select("-password -refreshToken");
+  if(!user){
+    return res.status(404).json(new ApiResponse(404, {}, "User not found"));
+  }
+
+  if(user.profileImage!==process.env.DEFAULT_PROFILE_IMAGE){
+    await deleteImage(user.profileImage);
+    user.profileImage=process.env.DEFAULT_PROFILE_IMAGE;
+  }
+
+  const uloadedImageLink = await fileUpload(userImage);
+  user.profileImage = uloadedImageLink;
+  await user.save()
+  const updatedUser = await User.findById(userId).select("-password -refreshToken");
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, { updatedUser }, "Profile image updated successfully"));
 };
 
 const userRemoveProfileImage = async (req, res) => {
+  const userId = req.user._id;
 
+  const user =await User.findById(userId).select("-password -refreshToken");
+  if(!user){
+    return res.status(404).json(new ApiResponse(404, {}, "User not found"));
+  }
+
+  if(user.profileImage===process.env.DEFAULT_PROFILE_IMAGE){
+    return res.status(400).json(new ApiResponse(400, {}, "Profile image already removed"));
+  }
+
+  await deleteImage(user.profileImage);
+
+  user.profileImage = process.env.DEFAULT_PROFILE_IMAGE;
+
+  try {
+    await user.save();
+    const updatedProfile = await User.findById(userId).select("-password -refreshToken");
+  
+    res
+      .status(200)
+      .json(new ApiResponse(200, { updatedProfile }, "Profile image removed successfully"));
+  } catch (error) {
+    res
+      .status(500)
+      .json(new ApiResponse(500, error, "Error removing profile image"));
+    
+  }
 };
 
 export {
