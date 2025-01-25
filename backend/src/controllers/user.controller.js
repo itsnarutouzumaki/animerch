@@ -3,12 +3,13 @@ import { User } from "../models/User.model.js";
 import jwt from "jsonwebtoken";
 import { randomString } from "../utils/randomPassword.js";
 import mailSender from "./../utils/sendMail.js";
-import { fileUpload,deleteImage} from "./../utils/cloudinary.js";
+import { fileUpload, deleteImage } from "./../utils/cloudinary.js";
 
 const generateAccessAndRefreshToken = async (userId) => {
   const user = await User.findById(userId);
-  if (!user) throw new ApiError(404, "User not found");
-
+  if (!user) {
+    return res.status(404).json(new ApiResponse(404, {}, "User not found"));
+  }
   const accessToken = user.generateAccessToken();
   const refreshToken = user.generateRefreshToken();
 
@@ -244,7 +245,7 @@ const userPasswordUpdate = async (req, res) => {
   }
   try {
     user.password = newPassword;
-    await user.save({validateBeforeSave: false});
+    await user.save({ validateBeforeSave: false });
 
     res
       .status(200)
@@ -355,36 +356,46 @@ const userUpdateProfileImage = async (req, res) => {
     return res.status(400).json(new ApiResponse(400, {}, "Image is required"));
   }
 
-  const user =await User.findById(userId).select("-password -refreshToken");
-  if(!user){
+  const user = await User.findById(userId).select("-password -refreshToken");
+  if (!user) {
     return res.status(404).json(new ApiResponse(404, {}, "User not found"));
   }
 
-  if(user.profileImage!==process.env.DEFAULT_PROFILE_IMAGE){
+  if (user.profileImage !== process.env.DEFAULT_PROFILE_IMAGE) {
     await deleteImage(user.profileImage);
-    user.profileImage=process.env.DEFAULT_PROFILE_IMAGE;
+    user.profileImage = process.env.DEFAULT_PROFILE_IMAGE;
   }
 
   const uloadedImageLink = await fileUpload(userImage);
   user.profileImage = uloadedImageLink;
-  await user.save()
-  const updatedUser = await User.findById(userId).select("-password -refreshToken");
+  await user.save();
+  const updatedUser = await User.findById(userId).select(
+    "-password -refreshToken"
+  );
 
   res
     .status(200)
-    .json(new ApiResponse(200, { updatedUser }, "Profile image updated successfully"));
+    .json(
+      new ApiResponse(
+        200,
+        { updatedUser },
+        "Profile image updated successfully"
+      )
+    );
 };
 
 const userRemoveProfileImage = async (req, res) => {
   const userId = req.user._id;
 
-  const user =await User.findById(userId).select("-password -refreshToken");
-  if(!user){
+  const user = await User.findById(userId).select("-password -refreshToken");
+  if (!user) {
     return res.status(404).json(new ApiResponse(404, {}, "User not found"));
   }
 
-  if(user.profileImage===process.env.DEFAULT_PROFILE_IMAGE){
-    return res.status(400).json(new ApiResponse(400, {}, "Profile image already removed"));
+  if (user.profileImage === process.env.DEFAULT_PROFILE_IMAGE) {
+    return res
+      .status(400)
+      .json(new ApiResponse(400, {}, "Profile image already removed"));
   }
 
   await deleteImage(user.profileImage);
@@ -393,16 +404,23 @@ const userRemoveProfileImage = async (req, res) => {
 
   try {
     await user.save();
-    const updatedProfile = await User.findById(userId).select("-password -refreshToken");
-  
+    const updatedProfile = await User.findById(userId).select(
+      "-password -refreshToken"
+    );
+
     res
       .status(200)
-      .json(new ApiResponse(200, { updatedProfile }, "Profile image removed successfully"));
+      .json(
+        new ApiResponse(
+          200,
+          { updatedProfile },
+          "Profile image removed successfully"
+        )
+      );
   } catch (error) {
     res
       .status(500)
       .json(new ApiResponse(500, error, "Error removing profile image"));
-    
   }
 };
 

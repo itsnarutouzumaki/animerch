@@ -18,7 +18,7 @@ const itemSchema = new Schema(
       ref: "Seller", 
       required: [true, "Seller is required."],
     },
-    image: {
+    Image: {
       type: [String],
       required: [true, "Image is required."],
       validate: {

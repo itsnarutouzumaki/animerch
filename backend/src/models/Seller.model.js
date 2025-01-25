@@ -1,78 +1,89 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { AddressSchema } from "./Address.model.js";
 
-const AddressSchema = new Schema({
-  houseNumber: {
-    type: String,
-    required: [true, "House number is required."],
-  },
-  street: {
-    type: String,
-    required: [true, "Street is required."],
-  },
-  locality: {
-    type: String,
-    required: [true, "Locality is required."],
-  },
-  city: {
-    type: String,
-    required: [true, "City is required."],
-  },
-  state: {
-    type: String,
-    required: [true, "State is required."],
-  },
-  postalCode: {
-    type: String,
-    required: [true, "Postal code is required."],
-    match: {
-      validator: /^[1-9][0-9]{5}$/,
-      message:
-        "Postal code must be a 6-digit number starting with a non-zero digit.",
-    },
-  },
-  country: {
-    type: String,
-    default: "India",
-  },
-  landmark: {
-    type: String,
-  },
-  phoneNumber: {
-    type: String,
-    required: [true, "Phone number is required."],
-    match: {
-      validator: /^[0-9]{10}$/,
-      message: "Phone number must be a 10-digit number.",
-    },
-  },
-});
 // Define the seller schema
 const sellerSchema = new Schema(
   {
-    Name: {
+    name: {
       type: String,
       required: [true, "Name is required"],
     },
-    Address: { AddressSchema },
-    Inventory: [
+    phoneNumber: {
+      type: String,
+      required: [true, "Phone number is required."],
+      match: [/^[0-9]{10}$/, "Phone number must be a 10-digit number."],
+    },
+    password: {
+      type: String,
+      required: [true, "Password is required."],
+    },
+    email: {
+      type: String,
+      required: [true, "Email is required."],
+      unique: true,
+      index: true,
+    },
+    addressLine_1: {
+      type: String,
+      required: [true, "Address line 1 is required"],
+    },
+    addressLine_2: {
+      type: String,
+    },
+    city: {
+      type: String,
+      required: [true, "City is required"],
+    },
+    state: {
+      type: String,
+      required: [true, "State is required."],
+    },
+    postalCode: {
+      type: String,
+      required: [true, "Postal code is required."],
+      validate: {
+        validator: (v) => /^\d{6}$/.test(v),
+        message: (props) => `${props.value} is not a valid postal code.`,
+      },
+    },
+    country: {
+      type: String,
+      default: "India",
+    },
+    landmark: {
+      type: String,
+    },
+    inventory: [
       {
         type: Schema.Types.ObjectId,
         ref: "Item",
       },
     ],
-    GSTIN: {
+    gstin: {
       type: String,
       required: [true, "GSTIN is required"],
       unique: [true, "GSTIN must be unique"],
     },
-    Orders: [
+    orders: [
       {
         type: Schema.Types.ObjectId,
         ref: "Order",
       },
     ],
+    refreshToken: {
+      type: String,
+      default: null,
+    },
+    resetToken: {
+      type: String,
+      default: "",
+    },
+    verified: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
@@ -93,8 +104,6 @@ sellerSchema.methods.generateAccessToken = function () {
     {
       _id: this._id,
       email: this.email,
-      username: this.username,
-      fullName: this.fullName,
     },
     process.env.ACCESS_TOKEN_SECRET,
     {
@@ -102,6 +111,7 @@ sellerSchema.methods.generateAccessToken = function () {
     }
   );
 };
+
 sellerSchema.methods.generateRefreshToken = function () {
   return jwt.sign(
     {
