@@ -18,7 +18,9 @@ app.use(morgan("dev"));
 
 //routes import
 import userRouter from "./routes/user.route.js"
+import itemRouter from "./routes/item.route.js"
 
 app.use('/api/v1/users',userRouter);
+app.use('/api/v1/items',itemRouter);
 
 export { app }
