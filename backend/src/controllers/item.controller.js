@@ -1,4 +1,4 @@
-import { Item } from "../models/item.model.js";
+import { Item } from "../models/Item.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { Seller } from "../models/Seller.model.js";
 
