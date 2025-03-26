@@ -3,9 +3,12 @@ import "../style/Card.css";
 import { MdOutlineStarPurple500 } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
-function Card({ productid = "", imgSrc = "", title = "", oldPrice = "", newPrice = "", rating = "" }) {
+function Card({ productid = "", imgSrc = "", title = "", oldPrice = "", newPrice = ""}) {
   const navigate = useNavigate();
   const slicedTitle = title.length > 20 ? `${title.slice(0, 20)}...` : title;
+
+ 
+  const randomRating =(Math.random() * 4 + 1).toFixed(1);
 
   return (
     <button className="card" onClick={() => navigate(`/product/${productid}`)}>
@@ -27,7 +30,7 @@ function Card({ productid = "", imgSrc = "", title = "", oldPrice = "", newPrice
           <div>
             <MdOutlineStarPurple500 />
           </div>
-          <div>{rating}/5</div>
+          <div>{randomRating}/5</div>
         </div>
       </div>
     </button>

@@ -1,44 +1,39 @@
 import { Item } from "../models/Item.model.js";
-import { ApiResponse } from "../utils/ApiResponse.js";
 import { Seller } from "../models/Seller.model.js";
 
 const createItem = async (req, res) => {
   const item = req.body;
   if (!item) {
-    return res.status(400).send({ message: "Item cannot be empty" });
+    return res.status(400).json({ statusCode: 400, data: null, message: "Item cannot be empty" });
   }
 
   item.Seller = req.user?._id;
 
   if (!item.Name || !item.Price || !item.Seller || !item.Image || !item.Stock) {
-    return res.status(400).send({ message: "Item cannot have empty fields" });
+    return res.status(400).json({ statusCode: 400, data: null, message: "Item cannot have empty fields" });
   }
 
-  const sellerExists = await seller.findById(item.Seller);
+  const sellerExists = await Seller.findById(item.Seller);
   if (!sellerExists) {
-    return res.status(404).send({ message: "Seller not found" });
+    return res.status(404).json({ statusCode: 404, data: null, message: "Seller not found" });
   }
 
   try {
     const newItem = new Item(item);
     const createdItem = await newItem.save();
 
-    return res
-      .status(201)
-      .json(new ApiResponse(201, "Item created successfully", createdItem));
+    return res.status(201).json({ statusCode: 201, data: createdItem, message: "Item created successfully" });
   } catch (error) {
-    return res.status(500).json(new ApiResponse(500, error.message, null));
+    return res.status(500).json({ statusCode: 500, data: null, message: error.message });
   }
 };
 
 const getItems = async (req, res) => {
   try {
     const items = await Item.find();
-    return res
-      .status(200)
-      .json(new ApiResponse(200, "Items retrieved successfully", items));
+    return res.status(200).json({ statusCode: 200, data: items, message: "Items retrieved successfully" });
   } catch (error) {
-    return res.status(500).json(new ApiResponse(500, error.message, null));
+    return res.status(500).json({ statusCode: 500, data: null, message: error.message });
   }
 };
 
@@ -48,13 +43,11 @@ const getItem = async (req, res) => {
   try {
     const item = await Item.findById(id);
     if (!item) {
-      return res.status(404).json(new ApiResponse(404, "Item not found", null));
+      return res.status(404).json({ statusCode: 404, data: null, message: "Item not found" });
     }
-    return res
-      .status(200)
-      .json(new ApiResponse(200, "Item retrieved successfully", item));
+    return res.status(200).json({ statusCode: 200, data: item, message: "Item retrieved successfully" });
   } catch (error) {
-    return res.status(500).json(new ApiResponse(500, error.message, null));
+    return res.status(500).json({ statusCode: 500, data: null, message: error.message });
   }
 };
 
@@ -63,40 +56,30 @@ const updateItem = async (req, res) => {
   const item = req.body;
 
   if (!item) {
-    return res
-      .status(400)
-      .json(new ApiResponse(400, "Item cannot be empty", null));
+    return res.status(400).json({ statusCode: 400, data: null, message: "Item cannot be empty" });
   }
 
   if (!item.Name || !item.Price || !item.Seller || !item.Image || !item.Stock) {
-    return res
-      .status(400)
-      .json(new ApiResponse(400, "Item cannot have empty fields", null));
+    return res.status(400).json({ statusCode: 400, data: null, message: "Item cannot have empty fields" });
   }
 
-  const sellerExists = await seller.findById(item.Seller);
+  const sellerExists = await Seller.findById(item.Seller);
   if (!sellerExists) {
-    return res.status(404).send({ message: "Seller not found" });
+    return res.status(404).json({ statusCode: 404, data: null, message: "Seller not found" });
   }
 
   if (item.Seller !== req.user?._id) {
-    return res
-      .status(403)
-      .json(
-        new ApiResponse(403, "You are not authorized to update this item", null)
-      );
+    return res.status(403).json({ statusCode: 403, data: null, message: "You are not authorized to update this item" });
   }
 
   try {
     const updatedItem = await Item.findByIdAndUpdate(id, item, { new: true });
     if (!updatedItem) {
-      return res.status(404).json(new ApiResponse(404, "Item not found", null));
+      return res.status(404).json({ statusCode: 404, data: null, message: "Item not found" });
     }
-    return res
-      .status(200)
-      .json(new ApiResponse(200, "Item updated successfully", updatedItem));
+    return res.status(200).json({ statusCode: 200, data: updatedItem, message: "Item updated successfully" });
   } catch (error) {
-    return res.status(500).json(new ApiResponse(500, error.message, null));
+    return res.status(500).json({ statusCode: 500, data: null, message: error.message });
   }
 };
 
@@ -106,53 +89,37 @@ const deleteItem = async (req, res) => {
   try {
     const item = await Item.findById(id);
     if (!item) {
-      return res.status(404).json(new ApiResponse(404, "Item not found", null));
+      return res.status(404).json({ statusCode: 404, data: null, message: "Item not found" });
     }
     if (item.Seller !== req.user?._id) {
-      return res
-        .status(403)
-        .json(
-          new ApiResponse(
-            403,
-            "You are not authorized to delete this item",
-            null
-          )
-        );
+      return res.status(403).json({ statusCode: 403, data: null, message: "You are not authorized to delete this item" });
     }
     await Item.findByIdAndDelete(id);
-    return res
-      .status(200)
-      .json(new ApiResponse(200, "Item deleted successfully", null));
+    return res.status(200).json({ statusCode: 200, data: null, message: "Item deleted successfully" });
   } catch (error) {
-    return res.status(500).json(new ApiResponse(500, error.message, null));
+    return res.status(500).json({ statusCode: 500, data: null, message: error.message });
   }
 };
 
 const getMyItem = async (req, res) => {
   try {
     const items = await Item.find({ Seller: req.user?._id });
-    return res
-      .status(200)
-      .json(new ApiResponse(200, "Items retrieved successfully", items));
+    return res.status(200).json({ statusCode: 200, data: items, message: "Items retrieved successfully" });
   } catch (error) {
-    return res.status(500).json(new ApiResponse(500, error.message, null));
+    return res.status(500).json({ statusCode: 500, data: null, message: error.message });
   }
 };
 
 const searchItem = async (req, res) => {
   const query = req.query.q;
   if (!query) {
-    return res
-      .status(400)
-      .json(new ApiResponse(400, "Query cannot be empty", null));
+    return res.status(400).json({ statusCode: 400, data: null, message: "Query cannot be empty" });
   }
   try {
     const items = await Item.find({ $text: { $search: query } });
-    return res
-      .status(200)
-      .json(new ApiResponse(200, "Items retrieved successfully", items));
+    return res.status(200).json({ statusCode: 200, data: items, message: "Items retrieved successfully" });
   } catch (error) {
-    return res.status(500).json(new ApiResponse(500, error.message, null));
+    return res.status(500).json({ statusCode: 500, data: null, message: error.message });
   }
 };
 

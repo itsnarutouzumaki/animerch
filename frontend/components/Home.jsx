@@ -9,9 +9,10 @@ function Home() {
 
   useEffect(() => {
     axios
-      .get("https://fakestoreapi.com/products")
+      .get("/api/v1/items/getitems")
       .then((response) => {
-        setProducts(response.data);
+        if(response.status === 200)
+        setProducts(response.data.data);
       })
       .catch((error) => {
         console.error("There was an error fetching the data!", error);
@@ -25,13 +26,12 @@ function Home() {
         {products.length > 0 ? (
           products.map((product) => (
             <Card
-              key={product.id}
-              productid={product.id}
-              imgSrc={product.image}
-              title={product.title}
-              oldPrice={(product.price * 1.5).toFixed(2)}
-              newPrice={product.price.toFixed(2)}
-              rating={product.rating.rate}
+              key={product._id}
+              productid={product._id}
+              imgSrc={product.Image[0]}
+              title={product.Name}
+              oldPrice={(product.Price * 1.5).toFixed(2)}
+              newPrice={product.Price.toFixed(2)}
             />
           ))
         ) : (

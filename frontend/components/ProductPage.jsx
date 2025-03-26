@@ -12,11 +12,16 @@ const ProductPage = () => {
   const [error, setError] = useState(null);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
 
+  
+  const randomRating = (Math.random() * (5 - 1) + 1).toFixed(1);
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`https://fakestoreapi.com/products/${productid}`);
-        setProduct(response.data);
+        const response = await axios.get(`/api/v1/items/getitem/${productid}`);
+        response.data.data.rating = randomRating;
+        console.log(response.data.data);
+        setProduct(response.data.data);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -51,8 +56,8 @@ const ProductPage = () => {
             <div className="product_page_left">
               <img
                 className="product_page_image"
-                src={product.image}
-                alt={product.title}
+                src={product.Image[0]}
+                alt={product.Name}
                 onMouseMove={handleMouseMove}
                 style={{
                   transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`,
@@ -60,10 +65,11 @@ const ProductPage = () => {
               />
             </div>
             <div className="product_page_right">
-              <h1 className="product_page_title">{product.title}</h1>
-              <p className="product_page_price">₹ {product.price}</p>
+              <h1 className="product_page_title">{product.Name}</h1>
+              <p className="product_page_price">₹ {product.Price}</p>
               <div className="product_page_ratings">
-                <span>⭐ {product.rating?.rate}</span> | {product.rating?.count} reviews
+                <span>⭐ {product.rating}/5</span>
+                <p>{product.Stock} in stock</p>
               </div>
               <div className="product_page_offers">
                 <h3>Available Offers</h3>
@@ -71,7 +77,11 @@ const ProductPage = () => {
               </div>
               <div className="product_page_description">
                 <h3>Product Description</h3>
-                <p>{product.description}</p>
+                <ul>
+                  {product.Description.map((desc, index) => (
+                    <li key={index}>{desc}</li>
+                  ))}
+                </ul>
               </div>
               <button className="product_page_buy_now">Buy Now</button>
               <button className="product_page_add_to_cart">Add to Cart</button>

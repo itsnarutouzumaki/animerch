@@ -1,7 +1,6 @@
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from "../models/User.model.js";
 import jwt from "jsonwebtoken";
-import { randomString } from "../utils/randomPassword.js";
 import mailSender from "./../utils/sendMail.js";
 import { fileUpload, deleteImage } from "./../utils/cloudinary.js";
 
@@ -275,7 +274,7 @@ const userForgetPassword = async (req, res) => {
     });
     await user.updateOne({ resetToken });
 
-    const resetLink = `http://localhost:3000/api/v1/users/resetpassword/${resetToken}`;
+    const resetLink = `http://localhost:5173/resetpassword/${resetToken}`;
 
     await mailSender(email, "Password Reset", resetLink);
 
@@ -290,7 +289,20 @@ const userForgetPassword = async (req, res) => {
 };
 
 const userResetPassword = async (req, res) => {
-  const { id: resetToken } = req.params;
+  console.log("hello coder");
+  const { resetToken, newPassword, reNewPassword } = req.body;
+
+  if (!resetToken || !newPassword || !reNewPassword) {
+    return res
+      .status(400)
+      .json(new ApiResponse(400, {}, "All fields are required"));
+  }
+
+  if (newPassword !== reNewPassword) {
+    return res
+      .status(400)
+      .json(new ApiResponse(400, {}, "Passwords do not match"));
+  }
 
   let email;
   try {
@@ -319,10 +331,8 @@ const userResetPassword = async (req, res) => {
       );
   }
 
-  const temporaryPassword = randomString();
-
   try {
-    user.password = temporaryPassword;
+    user.password = newPassword;
     user.resetToken = "";
     await user.save();
 
@@ -332,7 +342,7 @@ const userResetPassword = async (req, res) => {
         new ApiResponse(
           200,
           {},
-          `Your temporary password is: ${temporaryPassword}`
+          `Your Password has been changed successfully.`
         )
       );
   } catch (error) {

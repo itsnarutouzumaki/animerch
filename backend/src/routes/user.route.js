@@ -20,7 +20,7 @@ router
   .route("/updatepassword")
   .post(verifyUserJWT, userControllers.userPasswordUpdate);
 router.route("/forgetpassword").post(userControllers.userForgetPassword);
-router.route("/resetpassword/:id").get(userControllers.userResetPassword);
+router.route("/resetpassword").post(userControllers.userResetPassword);
 
 router
   .route("/updateimage")

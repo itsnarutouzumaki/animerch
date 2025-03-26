@@ -8,6 +8,7 @@ import Cart from "../components/Cart";
 import ContactUs from "../components/ContactUs";
 import ProductPage from "../components/ProductPage";
 import Profile from "../components/Profile";
+import Resetpassword from "../components/Resetpassword.jsx";
 
 function App() {
   useEffect(() => {
@@ -42,6 +43,10 @@ function App() {
     {
       path: "/Profile",
       element: <Profile/>,
+    },
+    {
+      path: "/resetpassword/:id",
+      element: <Resetpassword/>,
     }
   ]);
 
