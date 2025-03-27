@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../style/Profile.css";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { CiCirclePlus } from "react-icons/ci";
 import Address_container from "./Address_container";
-import ProfileModal from "./Modal/ShowProfileModal";
-import AddressModal from "./Modal/ShowAddressModal";
+import ProfileModal from "./Modal/EditProfileModal";
+import AddressModal from "./Modal/AddAddressModal";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 const Profile = () => {
   const [showProfileModal, setShowProfileModal] = useState(false);
@@ -14,18 +17,26 @@ const Profile = () => {
   const [showAddressModal, setShowAddressModal] = useState(false);
   const closeModalAddress = () => setShowAddressModal(false);
 
-  const addresses = [
-    "Post Jakhania, Ghazipur, Uttar Pradesh",
-    "Post Sakaldiha, Chandauli, Uttar Pradesh",
-    "Post Ramnagar, Varanasi, Uttar Pradesh",
-    "Post Mughalsarai, Chandauli, Uttar Pradesh",
-    "Post Mohamdabad, Ghazipur, Uttar Pradesh",
-    "Post Niyamatabad, Chandauli, Uttar Pradesh",
-    "Post Saidpur, Ghazipur, Uttar Pradesh",
-    "Post Pandeypur, Varanasi, Uttar Pradesh",
-    "Post Bhadohi, Sant Ravidas Nagar, Uttar Pradesh",
-    "Post Zamania, Ghazipur, Uttar Pradesh"
-  ];
+  const navigate = useNavigate();
+  const [profile,setProfile]=useState(null);
+  useEffect(() => {
+    if(localStorage.getItem("profile")==null){navigate('/login');return;}
+
+    const fetchProfile = async () => {
+      try {
+        const response = await axios.get("/api/v1/users/profile");
+        console.log(response);
+        setProfile(response.data.data);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+
+    fetchProfile();
+  }, []);
+
+  if(profile==null)return <div>Loading...</div>;
+  const addresses = profile.addresses;
 
   return (
     <>
@@ -37,12 +48,21 @@ const Profile = () => {
             alt="Profile"
           />
           <h2>Naruto Uzumaki</h2>
-          <p>Date of Birth: 01/01/2000</p>
-          <p>Gender: Male</p>
+          <p>Gender: Unknown</p>
           <p>Email: XYZ@gmail.com</p>
           <p>Mobile: XXXXXXX262</p>
-          <button className="profile_page_button" onClick={() => setShowProfileModal(true)}>
+          <button
+            className="profile_page_button"
+            onClick={() => setShowProfileModal(true)}
+          >
             ✏️Edit
+          </button>
+          <button
+            className="profile_page_button"
+            style={{ margin: 10 }}
+            onClick={() => setShowProfileModal(true)}
+          >
+            ✏️Edit Image
           </button>
         </div>
         {showProfileModal && <ProfileModal closeModalprofile={closeModalprofile} />}
@@ -52,7 +72,10 @@ const Profile = () => {
             <div className="saved-address">
               <div className="saveed_address_top">
                 <h3>Saved Address</h3>
-                <div className="profile_page_add_button" onClick={() => setShowAddressModal(true)}>
+                <div
+                  className="profile_page_add_button"
+                  onClick={() => setShowAddressModal(true)}
+                >
                   <CiCirclePlus />
                 </div>
               </div>

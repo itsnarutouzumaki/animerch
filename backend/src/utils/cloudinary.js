@@ -25,19 +25,17 @@ const fileUpload = async (localFilePath, resourceType = "image") => {
 const deleteImage = async (imageURL) => {
   try {
     const result = await cloudinary.uploader.destroy(getPublicId(imageURL));
-    console.log('Image deleted:', result);
+    console.log("Image deleted:", result);
   } catch (error) {
-    console.error('Error deleting image:', error);
+    console.error("Error deleting image:", error);
   }
 };
 
 const getPublicId = (url) => {
-  const parts = url.split('/upload/');
+  const parts = url.split("/upload/");
   if (parts.length < 2) return null;
-  const publicIdWithExtension = parts[1].split('.')[0];
-  return publicIdWithExtension.replace(/\/v\d+\//, '');
+  const publicIdWithExtension = parts[1].split(".")[0];
+  return publicIdWithExtension.replace(/\/v\d+\//, "");
 };
-
-
 
 export { fileUpload, deleteImage };

@@ -7,7 +7,7 @@ const itemSchema = new Schema(
       required: [true, "Name is required."],
     },
     Description: {
-      type: [String], 
+      type: [String],
     },
     Price: {
       type: Number,
@@ -15,18 +15,18 @@ const itemSchema = new Schema(
     },
     Seller: {
       type: Schema.Types.ObjectId,
-      ref: "Seller", 
+      ref: "Seller",
       required: [true, "Seller is required."],
     },
     Image: {
       type: [String],
       required: [true, "Image is required."],
       validate: {
-        validator: function(v) {
+        validator: function (v) {
           return v.length <= 4;
         },
-        message: "A maximum of 4 images is allowed."
-      }
+        message: "A maximum of 4 images is allowed.",
+      },
     },
     Stock: {
       type: Number,
@@ -34,7 +34,7 @@ const itemSchema = new Schema(
       min: [0, "Stock must be at least 0."],
     },
   },
-  { timestamps: true } 
+  { timestamps: true }
 );
 
 export const Item = mongoose.model("Item", itemSchema);

@@ -339,11 +339,7 @@ const userResetPassword = async (req, res) => {
     res
       .status(200)
       .json(
-        new ApiResponse(
-          200,
-          {},
-          `Your Password has been changed successfully.`
-        )
+        new ApiResponse(200, {}, `Your Password has been changed successfully.`)
       );
   } catch (error) {
     res

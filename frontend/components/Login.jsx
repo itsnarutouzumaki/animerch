@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../style/Login.css";
@@ -6,6 +6,13 @@ import toast from "react-hot-toast";
 
 function Login() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("profile") != null) {
+      navigate("/");
+    }
+  }, []);
+
 
   const loginRequest = () => {
     const email = document.getElementsByName("email")[0].value;
@@ -16,15 +23,19 @@ function Login() {
         password: password,
       })
       .then((response) => {
+        localStorage.setItem("profile", response.data.data.user.name);
         toast.success("You logged in successfully", {
           duration: 2000,
-          position: 'top-center'});
+          position: "top-center",
+        });
         navigate("/");
       })
       .catch((error) => {
-        toast.error("Some error has been occured", {
+        console.log(error);
+        toast.error(error.response.data.message, {
           duration: 2000,
-          position: 'top-center'});
+          position: "top-center",
+        });
       });
   };
 
@@ -48,7 +59,14 @@ function Login() {
 
   const loginElement = (
     <div className="details_field">
-      <p style={{ fontSize: "24px", fontWeight: "bold", color: "#333", marginBottom: "20px" }}>
+      <p
+        style={{
+          fontSize: "24px",
+          fontWeight: "bold",
+          color: "#333",
+          marginBottom: "20px",
+        }}
+      >
         Login
       </p>
       <div className="input-group">
@@ -70,7 +88,14 @@ function Login() {
 
   const forgetElement = (
     <div className="details_field">
-      <p style={{ fontSize: "24px", fontWeight: "bold", color: "#333", marginBottom: "20px" }}>
+      <p
+        style={{
+          fontSize: "24px",
+          fontWeight: "bold",
+          color: "#333",
+          marginBottom: "20px",
+        }}
+      >
         Forget Password
       </p>
       <div className="input-group">

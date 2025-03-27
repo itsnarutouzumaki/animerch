@@ -21,6 +21,7 @@ const userSchema = new Schema(
     },
     gender: {
       type: String,
+      default: "Male",
       enum: {
         values: ["Male", "Female", "Other"],
         message: "Gender must be either 'Male', 'Female', or 'Other'.",
@@ -49,15 +50,8 @@ const userSchema = new Schema(
         type: Schema.Types.ObjectId,
         ref: "Item",
         required: true,
-      },
-      Quantity: {
-        type: Number,
-        required: true,
-        default:1,
-        min:0,
-        max:10
-      },
-    },],
+      }
+    }],
     refreshToken: {
       type: String,
       default: null,
