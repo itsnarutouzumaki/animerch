@@ -1,5 +1,7 @@
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from "../models/User.model.js";
+import { Address } from "../models/Address.model.js";
+import { Order } from "../models/Order.model.js";
 import jwt from "jsonwebtoken";
 import mailSender from "./../utils/sendMail.js";
 import { fileUpload, deleteImage } from "./../utils/cloudinary.js";
@@ -170,9 +172,18 @@ const userDetails = async (req, res) => {
       return res.status(404).json(new ApiResponse(404, {}, "User not found"));
     }
 
+    const addresses = await Address.find({ user: req.user._id });
+    const orders = await Order.find({ user: req.user._id });
+
     res
       .status(200)
-      .json(new ApiResponse(200, { user }, "Profile fetched successfully"));
+      .json(
+        new ApiResponse(
+          200,
+          { user, addresses, orders },
+          "Profile fetched successfully"
+        )
+      );
   } catch (error) {
     res
       .status(500)
@@ -181,9 +192,15 @@ const userDetails = async (req, res) => {
 };
 
 const userLogout = async (req, res) => {
+  console.log("hello coder");
+  if (!req.user || !req.user._id) {
+    return res
+      .status(400)
+      .json(new ApiResponse(400, {}, "User not authenticated"));
+  }
+
   try {
     await User.findByIdAndUpdate(req.user._id, { $unset: { refreshToken: 1 } });
-
     res
       .status(200)
       .clearCookie("accessToken")

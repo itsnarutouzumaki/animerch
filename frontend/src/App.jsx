@@ -42,12 +42,12 @@ function App() {
     },
     {
       path: "/Profile",
-      element: <Profile/>,
+      element: <Profile />,
     },
     {
       path: "/resetpassword/:id",
-      element: <Resetpassword/>,
-    }
+      element: <Resetpassword />,
+    },
   ]);
 
   return (

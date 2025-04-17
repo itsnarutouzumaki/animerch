@@ -35,9 +35,6 @@ router
 
 router.route("/addaddress").post(verifyUserJWT, addressControllers.addAddress);
 router
-  .route("/getaddresses")
-  .get(verifyUserJWT, addressControllers.getAddresses);
-router
   .route("/getaddress/:id")
   .get(verifyUserJWT, addressControllers.getAddress);
 router

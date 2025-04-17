@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { FaRegUserCircle } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { FaRegHeart } from "react-icons/fa";
@@ -9,9 +9,9 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import ChangePassword from "./Modal/ChangePasswordModal";
 
 function LoggedIn({ profile, setProfile }) {
+  setProfile(null);
+  localStorage.removeItem("profile");
   const logoutRequest = async () => {
-    setProfile(null);
-    localStorage.removeItem("profile");
     try {
       await axios.post("api/v1/users/logout");
       toast.success("You logged out successfully", {
@@ -26,7 +26,7 @@ function LoggedIn({ profile, setProfile }) {
     }
   };
 
-  const [showPasswordChangeModal, setShowPasswordChangeModal] = useState(false)
+  const [showPasswordChangeModal, setShowPasswordChangeModal] = useState(false);
 
   return (
     <li className="navbar-item dropdown">
@@ -36,14 +36,14 @@ function LoggedIn({ profile, setProfile }) {
       </div>
       <ul className="dropdown-menu" role="menu">
         <li>
-          <Link to='/profile' className="dropdown-link">
+          <Link to="/profile" className="dropdown-link">
             <FaRegUserCircle className="dropped_down_icon" />
             Profile
           </Link>
         </li>
         <li>
           <Link
-            onClick={()=>setShowPasswordChangeModal(true)}
+            onClick={() => setShowPasswordChangeModal(true)}
             className="dropdown-link"
           >
             <RiLockPasswordLine className="dropped_down_icon" />
@@ -51,17 +51,16 @@ function LoggedIn({ profile, setProfile }) {
           </Link>
         </li>
         <li>
-          <Link
-            onClick={logoutRequest}
-            className="dropdown-link"
-          >
+          <Link onClick={logoutRequest} className="dropdown-link">
             <FiLogOut className="dropped_down_icon" />
             Logout
           </Link>
         </li>
       </ul>
 
-      {showPasswordChangeModal && <ChangePassword closeModal={()=>setShowPasswordChangeModal(false)} />}
+      {showPasswordChangeModal && (
+        <ChangePassword closeModal={() => setShowPasswordChangeModal(false)} />
+      )}
     </li>
   );
 }

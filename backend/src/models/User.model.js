@@ -31,27 +31,10 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Password is required."],
     },
-    addresses: [{
-      type: Schema.Types.ObjectId,
-      ref: "Address",
-    }],
-    orders: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Order",
-      },
-    ],
     profileImage: {
       type: String,
       default: process.env.DEFAULT_PROFILE_IMAGE,
     },
-    cart: [{
-      Item: {
-        type: Schema.Types.ObjectId,
-        ref: "Item",
-        required: true,
-      }
-    }],
     refreshToken: {
       type: String,
       default: null,
@@ -60,14 +43,13 @@ const userSchema = new Schema(
       type: String,
       default: "",
     },
-    verified:{
-      type:Boolean,
-      default:false
-    }
+    verified: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
-
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();

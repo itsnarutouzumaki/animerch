@@ -41,15 +41,12 @@ const addAddress = async (req, res) => {
         .json(
           new ApiResponse(
             400,
+            {},
             "Address with the same phone number and postal code already exists in your account"
           )
         );
     }
     const address = await Address.create(incomingAddress);
-
-    const user = await User.findById(req.user._id);
-    user.addresses.push(address._id);
-    await user.save();
 
     res
       .status(201)
@@ -146,15 +143,6 @@ const updateAddress = async (req, res) => {
   }
 };
 
-const getAddresses = async (req, res) => {
-  try {
-    const addresses = await Address.find({ owner: req.user._id });
-
-    res.status(200).json(new ApiResponse(200, "Addresses fetched", addresses));
-  } catch (error) {
-    res.status(500).json(new ApiResponse(500, error.message, null));
-  }
-};
 
 const getAddress = async (req, res) => {
   try {
@@ -175,4 +163,4 @@ const getAddress = async (req, res) => {
   }
 };
 
-export { addAddress, removeAddress, updateAddress, getAddresses, getAddress };
+export { addAddress, removeAddress, updateAddress, getAddress };

@@ -9,7 +9,6 @@ import AddressModal from "./Modal/AddAddressModal";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-
 const Profile = () => {
   const [showProfileModal, setShowProfileModal] = useState(false);
   const closeModalprofile = () => setShowProfileModal(false);
@@ -18,24 +17,28 @@ const Profile = () => {
   const closeModalAddress = () => setShowAddressModal(false);
 
   const navigate = useNavigate();
-  const [profile,setProfile]=useState(null);
-  useEffect(() => {
-    if(localStorage.getItem("profile")==null){navigate('/login');return;}
+  const [profile, setProfile] = useState(null);
 
-    const fetchProfile = async () => {
-      try {
-        const response = await axios.get("/api/v1/users/profile");
-        console.log(response);
-        setProfile(response.data.data);
-      } catch (err) {
-        console.log(err.message);
-      }
-    };
+  // useEffect(() => {
+  //   if (localStorage.getItem("profile") == null) {
+  //     navigate("/login");
+  //     return;
+  //   }
 
-    fetchProfile();
-  }, []);
+  //   const fetchProfile = async () => {
+  //     try {
+  //       const response = await axios.get("/api/v1/users/profile");
+  //       console.log(response);
+  //       setProfile(response.data.data);
+  //     } catch (err) {
+  //       console.log(err.message);
+  //     }
+  //   };
 
-  if(profile==null)return <div>Loading...</div>;
+  //   fetchProfile();
+  // }, []);
+
+  if (profile == null) return <div>Loading...</div>;
   const addresses = profile.addresses;
 
   return (
@@ -65,7 +68,9 @@ const Profile = () => {
             ✏️Edit Image
           </button>
         </div>
-        {showProfileModal && <ProfileModal closeModalprofile={closeModalprofile} />}
+        {showProfileModal && (
+          <ProfileModal closeModalprofile={closeModalprofile} />
+        )}
 
         <div className="profile_right_div">
           <div className="profile_right_upper">
@@ -81,17 +86,17 @@ const Profile = () => {
               </div>
 
               <div className="saveed_address_buttom">
-                {addresses.length > 0 ? (
-                  addresses.map((address, index) => (
-                    <Address_container key={index} details={address} />
-                  ))
-                ) : (
-                  "No address"
-                )}
+                {addresses.length > 0
+                  ? addresses.map((address, index) => (
+                      <Address_container key={index} details={address} />
+                    ))
+                  : "No address"}
               </div>
             </div>
           </div>
-          {showAddressModal && <AddressModal closeModalAddress={closeModalAddress} />}
+          {showAddressModal && (
+            <AddressModal closeModalAddress={closeModalAddress} />
+          )}
 
           <div className="order-details">
             <h3>Order Details</h3>
