@@ -9,10 +9,12 @@ function Home() {
 
   useEffect(() => {
     const fetchProducts = async () => {
+      console.log("Fetching products...");
       try {
         const response = await axios.get("/api/v1/items/getitems");
         if (response.status === 200) {
           setProducts(response.data.data);
+          console.log(response);
         }
       } catch (error) {
         console.error("There was an error fetching the data!", error);
