@@ -8,15 +8,18 @@ function Home() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("/api/v1/items/getitems")
-      .then((response) => {
-        if(response.status === 200)
-        setProducts(response.data.data);
-      })
-      .catch((error) => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get("/api/v1/items/getitems");
+        if (response.status === 200) {
+          setProducts(response.data.data);
+        }
+      } catch (error) {
         console.error("There was an error fetching the data!", error);
-      });
+      }
+    };
+
+    fetchProducts();
   }, []);
 
   return (
