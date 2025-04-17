@@ -7,7 +7,7 @@ export default defineConfig({
   server : {
     proxy :{
       '/api': {
-        target: 'https://campusconnect-hc79.onrender.com',
+        target: 'https://animerch-tq0g.onrender.com',
         changeOrigin: true,
         secure: false
     }
